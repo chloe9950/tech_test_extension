@@ -1,0 +1,69 @@
+expectation_suite_name: "trades_suite"
+expectations:
+  - column: login_hash
+    rules:
+      - type: expect_column_values_to_not_be_null
+
+  - column: symbol
+    rules:
+      - type: expect_column_values_to_not_be_null
+      - type: expect_column_values_to_match_regex
+        params:
+          regex: "^[A-Za-z0-9]+$"
+
+  - column: contractsize
+    rules:
+      - type: expect_column_values_to_not_be_null
+
+  - column: open_time
+    rules:
+      - type: expect_column_values_to_not_be_null
+
+  - column: close_time
+    rules:
+      - type: expect_column_values_to_not_be_null
+
+  - column: volume
+    rules:
+      - type: expect_column_values_to_be_between
+        params:
+          min_value: 0
+          max_value: null  
+
+  - column: digits
+    rules:
+      - type: expect_column_values_to_be_between
+        params:
+          min_value: 0
+          max_value: 10
+
+  - column: cmd
+    rules:
+      - type: expect_column_values_to_be_in_set
+        params:
+          value_set: [0, 1]
+
+  - column: ticket_hash
+    rules:
+      - type: expect_column_values_to_not_be_null
+      - type: expect_column_values_to_match_regex
+        params:
+          regex: "^[A-F0-9]+$"
+
+  - column_pair:
+      columns: [open_time, close_time]
+      rules:
+        - type: expect_column_pair_values_a_to_be_greater_than_b
+
+
+  - column: server_hash
+    cross_table:
+      type: expect_column_values_to_be_in_set
+      source_table: users
+      source_column: server_hash
+
+  - column: login_hash
+    cross_table:
+      type: expect_column_values_to_be_in_set
+      source_table: users
+      source_column: login_hash

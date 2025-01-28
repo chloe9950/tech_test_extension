@@ -1,0 +1,44 @@
+expectation_suite_name: "users_suite"
+expectations:
+  - column: login_hash
+    rules:
+      - type: expect_column_values_to_not_be_null
+      - type: expect_column_values_to_match_regex
+        params:
+          regex: "^[A-F0-9]+$"
+
+  - column: server_hash
+    rules:
+      - type: expect_column_values_to_not_be_null
+
+  - column: country_hash
+    rules:
+      - type: expect_column_values_to_not_be_null
+      - type: expect_column_values_to_match_regex
+        params:
+          regex: "^[A-F0-9]+$"
+
+  - column: currency
+    rules:
+      - type: expect_column_values_to_not_be_null
+      - type: expect_column_values_to_be_in_set
+        params:
+          value_set:
+            - AUD
+            - EUR
+            - NZD
+            - USD
+
+  - column: enable
+    rules:
+      - type: expect_column_values_to_not_be_null
+      - type: expect_column_values_to_be_in_set
+        params:
+          value_set: [0, 1]
+
+  - table:
+      rules:
+        - type: expect_table_row_count_to_be_between
+          params:
+            min_value: 1
+            max_value: null 
